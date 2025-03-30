@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automating Deployment with GitHub Actions and Docker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 2em;
+            color: #ffffff;
+            background-color: #121212;
+        }
+        h1, h2 { color: #1E90FF; }
+        p { margin-bottom: 1em; color: #cccccc; }
+        pre { background-color: #1e1e1e; padding: 1em; border-radius: 5px; overflow-x: auto; color: #00FF00; }
+        code { font-family: 'Courier New', Courier, monospace; color: #FF8800; }
+        strong { color: #ff4444; }
+        ol, ul { margin-left: 1.5em; color: #cccccc; }
+        ol li, ul li { margin-bottom: 0.5em; }
+        .summary {
+            border-top: 2px solid #1E90FF;
+            padding-top: 1em;
+            margin-top: 2em;
+        }
+        .example {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Automating Deployment with GitHub Actions and Docker</h1>
+    <p>Automating test execution and deployment using GitHub Actions and Docker ensures consistency, scalability, and efficiency in software testing workflows.</p>
+    
+    <h2>Setup Process</h2>
+    <ol>
+        <li>Define GitHub Actions workflow YAML file (<code>.github/workflows/ci.yml</code>).</li>
+        <li>Build a Docker image containing Selenium and test scripts.</li>
+        <li>Push the image to Docker Hub or GitHub Container Registry.</li>
+        <li>Run Selenium tests inside a container using GitHub Actions.</li>
+    </ol>
+    
+    <h2>GitHub Actions Workflow (ci.yml)</h2>
+    <div class="example">
+        <pre>
+            <code>
+name: Selenium Tests CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Docker
+        run: |
+          docker build -t selenium-tests .
+          docker run selenium-tests
+            </code>
+        </pre>
+    </div>
+    
+    <h2>Dockerfile</h2>
+    <div class="example">
+        <pre>
+            <code>
+FROM maven:3.8.5-openjdk-11 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean test
+
+FROM selenium/standalone-chrome:latest
+COPY --from=build /app/target /tests
+CMD ["sh", "-c", "mvn test"]
+            </code>
+        </pre>
+    </div>
+    
+    <h2>Execution Process</h2>
+    <ul>
+        <li>Commit and push changes to GitHub.</li>
+        <li>GitHub Actions triggers the workflow.</li>
+        <li>Docker builds and runs Selenium tests in a container.</li>
+        <li>Test results are available in GitHub Actions logs.</li>
+    </ul>
+</body>
+</html>

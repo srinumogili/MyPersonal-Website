@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>End-to-End API Automation Testing with Rest Assured</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 2em;
+            color: #ffffff;
+            background-color: #121212;
+        }
+        h1, h2 { color: #1E90FF; }
+        p { margin-bottom: 1em; color: #cccccc; }
+        pre { background-color: #1e1e1e; padding: 1em; border-radius: 5px; overflow-x: auto; color: #00FF00; }
+        code { font-family: 'Courier New', Courier, monospace; color: #FF8800; }
+        strong { color: #ff4444; }
+        ol, ul { margin-left: 1.5em; color: #cccccc; }
+        ol li, ul li { margin-bottom: 0.5em; }
+        .summary {
+            border-top: 2px solid #1E90FF;
+            padding-top: 1em;
+            margin-top: 2em;
+        }
+        .example {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>End-to-End API Automation Testing with Rest Assured</h1>
+    <p>API automation testing is crucial for validating the functionality of backend services. Rest Assured is a powerful Java-based library that simplifies testing RESTful APIs.</p>
+    
+    <h2>Common HTTP Status Codes</h2>
+    <ul>
+        <li><strong>200 OK</strong> - The request was successful.</li>
+        <li><strong>201 Created</strong> - A new resource was successfully created.</li>
+        <li><strong>400 Bad Request</strong> - The request is invalid or malformed.</li>
+        <li><strong>401 Unauthorized</strong> - Authentication is required.</li>
+        <li><strong>403 Forbidden</strong> - The server understood the request but refuses to authorize it.</li>
+        <li><strong>404 Not Found</strong> - The requested resource could not be found.</li>
+        <li><strong>500 Internal Server Error</strong> - A generic error message for server failures.</li>
+    </ul>
+    
+    <h2>Real-Time API Testing Process</h2>
+    <ol>
+        <li>Define test cases based on API requirements.</li>
+        <li>Set up Rest Assured dependencies in the project (Maven/Gradle).</li>
+        <li>Write API test scripts for different request methods (GET, POST, PUT, DELETE).</li>
+        <li>Validate response status codes, headers, and response body.</li>
+        <li>Integrate tests into TestNG or JUnit for structured execution.</li>
+        <li>Execute tests in local, staging, or production environments.</li>
+        <li>Automate API execution in CI/CD pipelines (Jenkins, GitHub Actions).</li>
+    </ol>
+    
+    <h2>Example: API Test with Rest Assured</h2>
+    <div class="example">
+        <pre>
+            <code>
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import org.testng.annotations.Test;
+
+public class APITest {
+    @Test
+    public void testGetUser() {
+        RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
+        
+        given()
+            .when()
+            .get("/users/1")
+            .then()
+            .statusCode(200)
+            .body("name", equalTo("Leanne Graham"));
+    }
+}
+            </code>
+        </pre>
+    </div>
+    
+    <h2>Execution Process</h2>
+    <ul>
+        <li>Run tests using <code>mvn test</code> or <code>gradle test</code>.</li>
+        <li>Generate reports using TestNG, Extent Reports, or Allure.</li>
+        <li>Execute in a CI/CD pipeline using Jenkins/GitHub Actions.</li>
+        <li>Store test results in logging tools like ELK or Grafana.</li>
+    </ul>
+</body>
+</html>

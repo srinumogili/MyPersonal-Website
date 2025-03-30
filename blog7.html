@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Full-Fledged CI/CD Pipeline with Jenkins</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 2em;
+            color: #ffffff;
+            background-color: #121212;
+        }
+        h1, h2 { color: #1E90FF; }
+        p { margin-bottom: 1em; color: #cccccc; }
+        pre { background-color: #1e1e1e; padding: 1em; border-radius: 5px; overflow-x: auto; color: #00FF00; }
+        code { font-family: 'Courier New', Courier, monospace; color: #FF8800; }
+        strong { color: #ff4444; }
+        ol, ul { margin-left: 1.5em; color: #cccccc; }
+        ol li, ul li { margin-bottom: 0.5em; }
+        .example {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Building a Full-Fledged CI/CD Pipeline with Jenkins</h1>
+    <p>Jenkins is a powerful automation tool used for building, testing, and deploying applications. Below is a step-by-step guide to setting up a CI/CD pipeline with Jenkins.</p>
+    
+    <h2>Steps to Build a CI/CD Pipeline</h2>
+    <ol>
+        <li>Install and configure Jenkins on your system.</li>
+        <li>Install required plugins (Git, Maven, Pipeline, etc.).</li>
+        <li>Set up a source code repository (GitHub, GitLab, Bitbucket).</li>
+        <li>Write a Jenkinsfile to define the pipeline stages.</li>
+        <li>Configure Jenkins to pull the latest code.</li>
+        <li>Execute build, test, and deploy steps in the pipeline.</li>
+        <li>Monitor build execution and analyze reports.</li>
+    </ol>
+    
+    <h2>Example: Jenkins Pipeline Script</h2>
+    <div class="example">
+        <pre>
+            <code>
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/example/repository.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                sh 'scp target/*.jar user@server:/deploy/path'
+            }
+        }
+    }
+}
+            </code>
+        </pre>
+    </div>
+    
+    <h2>Execution Process</h2>
+    <ul>
+        <li>Trigger the pipeline manually or via webhook.</li>
+        <li>Jenkins pulls the latest code and runs tests.</li>
+        <li>If all tests pass, the build is deployed to a staging/production server.</li>
+        <li>Monitor the build logs and reports for issues.</li>
+    </ul>
+</body>
+</html>

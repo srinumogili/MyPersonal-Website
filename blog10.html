@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Quality Checks in CI/CD Pipelines: SonarQube & ESLint</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 2em;
+            color: #ffffff;
+            background-color: #121212;
+        }
+        h1, h2 { color: #1E90FF; }
+        p { margin-bottom: 1em; color: #cccccc; }
+        pre { background-color: #1e1e1e; padding: 1em; border-radius: 5px; overflow-x: auto; color: #00FF00; }
+        code { font-family: 'Courier New', Courier, monospace; color: #FF8800; }
+        strong { color: #ff4444; }
+        ol, ul { margin-left: 1.5em; color: #cccccc; }
+        ol li, ul li { margin-bottom: 0.5em; }
+        .summary {
+            border-top: 2px solid #1E90FF;
+            padding-top: 1em;
+            margin-top: 2em;
+        }
+        .example {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Quality Checks in CI/CD Pipelines: SonarQube & ESLint</h1>
+    <p>Ensuring code quality in a CI/CD pipeline is crucial for maintainability and reliability. SonarQube and ESLint help in static code analysis and enforcing best practices.</p>
+    
+    <h2>Setup Process</h2>
+    <ol>
+        <li>Install and configure SonarQube for static code analysis.</li>
+        <li>Integrate ESLint for JavaScript code quality checks.</li>
+        <li>Define GitHub Actions workflow YAML file (<code>.github/workflows/code-quality.yml</code>).</li>
+        <li>Run SonarQube and ESLint in the pipeline.</li>
+    </ol>
+    
+    <h2>GitHub Actions Workflow (code-quality.yml)</h2>
+    <div class="example">
+        <pre>
+            <code>
+name: Code Quality Checks
+
+on: [push, pull_request]
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Run ESLint
+        run: |
+          npm install eslint
+          npx eslint .
+      
+      - name: Run SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn clean verify sonar:sonar \
+          -Dsonar.projectKey=my-project \
+          -Dsonar.host.url=https://sonarqube.example.com
+            </code>
+        </pre>
+    </div>
+    
+    <h2>SonarQube Configuration</h2>
+    <div class="example">
+        <pre>
+            <code>
+# sonar-project.properties
+sonar.projectKey=my-project
+sonar.organization=my-org
+sonar.host.url=https://sonarqube.example.com
+sonar.login=my-sonarqube-token
+            </code>
+        </pre>
+    </div>
+    
+    <h2>Execution Process</h2>
+    <ul>
+        <li>Commit and push changes to GitHub.</li>
+        <li>GitHub Actions triggers the workflow.</li>
+        <li>ESLint checks JavaScript files for issues.</li>
+        <li>SonarQube performs static code analysis.</li>
+        <li>Results are available in GitHub Actions and SonarQube dashboard.</li>
+    </ul>
+</body>
+</html>

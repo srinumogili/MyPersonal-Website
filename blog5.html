@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallel Execution in Selenium</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #fff;
+            background-color: #121212;
+        }
+        h1, h2 { color: #1E90FF; }
+        p { margin-bottom: 10px; color: #ccc; }
+        pre {
+            background: #1e1e1e;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            color: #00FF00;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Parallel Execution in Selenium</h1>
+        <p>Parallel execution helps in reducing the total execution time of test cases by running multiple tests concurrently.</p>
+        
+        <h2>1. Parallel Execution Using TestNG</h2>
+        <p>Modify the <code>testng.xml</code> file to run tests in parallel.</p>
+        <pre>
+&lt;suite name="ParallelSuite" parallel="tests" thread-count="2"&gt;
+    &lt;test name="Test1"&gt;
+        &lt;classes&gt;
+            &lt;class name="tests.FirstTest"/&gt;
+        &lt;/classes&gt;
+    &lt;/test&gt;
+    &lt;test name="Test2"&gt;
+        &lt;classes&gt;
+            &lt;class name="tests.SecondTest"/&gt;
+        &lt;/classes&gt;
+    &lt;/test&gt;
+&lt;/suite&gt;
+        </pre>
+        
+        <h2>2. Parallel Execution Using Selenium Grid</h2>
+        <p>Run multiple browsers on different machines using Selenium Grid.</p>
+        <pre>
+# Start Selenium Hub
+java -jar selenium-server-4.x.x.jar hub
+
+# Start Nodes
+java -jar selenium-server-4.x.x.jar node --hub http://localhost:4444
+        </pre>
+        
+        <h2>3. Parallel Execution Using Docker</h2>
+        <p>Use Docker containers for running parallel Selenium tests.</p>
+        <pre>
+# Pull Selenium Grid images
+docker pull selenium/hub
+
+docker pull selenium/node-chrome
+
+docker pull selenium/node-firefox
+
+# Start Selenium Grid
+docker network create grid
+
+docker run -d -p 4444:4444 --network grid --name selenium-hub selenium/hub
+
+docker run -d --network grid --name chrome -e HUB_HOST=selenium-hub selenium/node-chrome
+
+docker run -d --network grid --name firefox -e HUB_HOST=selenium-hub selenium/node-firefox
+        </pre>
+    </div>
+</body>
+</html>

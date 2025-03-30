@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Logging and Monitoring for Automation Scripts</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 2em;
+            color: #ffffff;
+            background-color: #121212;
+        }
+        h1, h2 { color: #1E90FF; }
+        p { margin-bottom: 1em; color: #cccccc; }
+        pre { background-color: #1e1e1e; padding: 1em; border-radius: 5px; overflow-x: auto; color: #00FF00; }
+        code { font-family: 'Courier New', Courier, monospace; color: #FF8800; }
+        strong { color: #ff4444; }
+        ol, ul { margin-left: 1.5em; color: #cccccc; }
+        ol li, ul li { margin-bottom: 0.5em; }
+        .summary {
+            border-top: 2px solid #1E90FF;
+            padding-top: 1em;
+            margin-top: 2em;
+        }
+        .example {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-Time Logging and Monitoring for Automation Scripts</h1>
+    <p>Logging and monitoring are crucial for debugging and maintaining automation scripts. Tools like ELK Stack, Log4j, and Grafana help capture logs, visualize execution, and troubleshoot issues efficiently.</p>
+    
+    <h2>Setup Process</h2>
+    <ol>
+        <li>Integrate Log4j for structured logging in test automation.</li>
+        <li>Send logs to Elasticsearch using Logstash.</li>
+        <li>Visualize test execution logs in Kibana and Grafana.</li>
+        <li>Set up alerts for failures in test automation runs.</li>
+    </ol>
+    
+    <h2>Log4j Configuration (log4j2.xml)</h2>
+    <div class="example">
+        <pre>
+            <code>
+&lt;Configuration status="WARN"&gt;
+    &lt;Appenders&gt;
+        &lt;Console name="Console" target="SYSTEM_OUT"&gt;
+            &lt;PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n" /&gt;
+        &lt;/Console&gt;
+        &lt;File name="File" fileName="logs/test.log"&gt;
+            &lt;PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n" /&gt;
+        &lt;/File&gt;
+    &lt;/Appenders&gt;
+    &lt;Loggers&gt;
+        &lt;Root level="info"&gt;
+            &lt;AppenderRef ref="Console" /&gt;
+            &lt;AppenderRef ref="File" /&gt;
+        &lt;/Root&gt;
+    &lt;/Loggers&gt;
+&lt;/Configuration&gt;
+            </code>
+        </pre>
+    </div>
+    
+    <h2>Sending Logs to ELK Stack</h2>
+    <p>Use Logstash to forward logs to Elasticsearch for real-time monitoring.</p>
+    <div class="example">
+        <pre>
+            <code>
+input {
+  file {
+    path => "/path/to/logs/test.log"
+    start_position => "beginning"
+  }
+}
+output {
+  elasticsearch {
+    hosts => ["http://localhost:9200"]
+    index => "automation-logs"
+  }
+}
+            </code>
+        </pre>
+    </div>
+    
+    <h2>Execution Process</h2>
+    <ul>
+        <li>Automation tests generate logs using Log4j.</li>
+        <li>Logstash forwards logs to Elasticsearch.</li>
+        <li>Kibana and Grafana display logs in real-time dashboards.</li>
+        <li>Alerts are triggered for test failures or anomalies.</li>
+    </ul>
+</body>
+</html>
